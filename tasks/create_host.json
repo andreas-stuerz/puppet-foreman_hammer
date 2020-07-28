@@ -1,0 +1,51 @@
+{
+  "description": "Create a host in foreman from a template",
+  "supports_noop": true,
+  "input_method": "stdin",
+  "files": ["python_task_helper/files/task_helper.py"],
+  "parameters": {
+    "hostname": {
+      "description": "The Hostname. e.g. mail01",
+      "type": "Stdlib::Host"
+    },
+    "template": {
+      "description": "The template to create the host from",
+      "type": "String[1]"
+    },
+    "ip": {
+      "description": "The ip for the primary interface",
+      "type": "Optional[Stdlib::IP::Address::V4]"
+    },
+    "cpus": {
+      "description": "The number of CPU cores",
+      "type": "Optional[Integer]"
+    },
+    "mem": {
+      "description": "The amount of memory in GB",
+      "type": "Optional[Integer]"
+    },
+    "template_basedir": {
+      "description": "The template basedir.",
+      "type": "String[1]",
+      "default": "Boltdir/site-modules/foreman/templates"
+    },
+    "hammer_cli_bin": {
+      "description": "The base path under which the hammer is installed.",
+      "type": "Optional[String]",
+      "default": "hammer"
+    },
+    "server_url": {
+      "description": "URL to access foreman e.g. https://foreman.example.com",
+      "type": "Optional[String[1]]"
+    },
+    "username": {
+      "description": "Username to access foreman",
+      "type": "Optional[String[1]]"
+    },
+    "password": {
+      "description": "Password for foreman.",
+      "type": "Optional[String[1]]",
+      "sensitive": true
+    }
+  }
+}

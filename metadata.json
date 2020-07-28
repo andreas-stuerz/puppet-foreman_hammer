@@ -1,12 +1,17 @@
 {
   "name": "andeman-foreman_hammer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Andreas Stürz",
-  "summary": "",
+  "summary": "Bolt task and plans to managing foreman with hammer_cli",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/andeman/puppet-foreman_hammer",
+  "project_page": "https://github.com/andeman/puppet-foreman_hammer",
+  "issues_url": "https://github.com/andeman/puppet-foreman_hammer/issues",
   "dependencies": [
-
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.20.0 < 7.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
