@@ -10,11 +10,11 @@
     },
     "template": {
       "description": "The template to update the host from",
-      "type": "String[1]"
+      "type": "String"
     },
     "build": {
       "description": "Should foreman rebuild the host?",
-      "type": "Boolean",
+      "type": "Optional[Boolean]",
       "default": false
     },
     "ip": {
@@ -31,7 +31,7 @@
     },
     "template_basedir": {
       "description": "The template basedir.",
-      "type": "String[1]",
+      "type": "String",
       "default": "Boltdir/site-modules/foreman/templates"
     },
     "hammer_cli_bin": {
@@ -41,7 +41,7 @@
     },
     "server_url": {
       "description": "URL to access foreman e.g. https://foreman.example.com",
-      "type": "Optional[String[1]]"
+      "type": "Optional[Stdlib::Httpsurl]"
     },
     "username": {
       "description": "Username to access foreman",

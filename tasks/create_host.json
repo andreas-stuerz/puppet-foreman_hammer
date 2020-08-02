@@ -36,7 +36,7 @@
     },
     "server_url": {
       "description": "URL to access foreman e.g. https://foreman.example.com",
-      "type": "Optional[String[1]]"
+      "type": "Optional[Stdlib::Httpsurl]"
     },
     "username": {
       "description": "Username to access foreman",

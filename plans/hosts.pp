@@ -28,7 +28,10 @@ plan foreman::hosts (
       } else {
         $ip = 'dhcp'
       }
-      out::message("Create server - HOSTNAME: ${hostname} IP: ${ip} TEMPLATE: ${host_config['template']} CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB")
+      out::message(
+        "Create server - HOSTNAME: ${hostname} IP: ${ip} TEMPLATE: ${host_config['template']} " +
+        "CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB"
+      )
       run_task(
         'foreman::create_host',
         $targets,
@@ -49,7 +52,10 @@ plan foreman::hosts (
       $name = $get_host_result.first.value['result']['Name']
       $ip = $get_host_result.first.value['result']['Network']['IPv4 address']
 
-      out::message("Update server - ID: ${id} NAME: ${name} IP: ${ip} TEMPLATE: ${host_config['template']} CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB")
+      out::message(
+        "Update server - ID: ${id} NAME: ${name} IP: ${ip} TEMPLATE: ${host_config['template']} " +
+        "CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB"
+      )
       run_task(
       'foreman::update_host',
         $targets,
