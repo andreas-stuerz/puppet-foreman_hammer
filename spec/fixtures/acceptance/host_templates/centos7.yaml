@@ -1,0 +1,27 @@
+---
+organization: example.de
+location: DC1
+hostgroup: linux-servers-dc1
+puppet-environment: development
+puppet-proxy: foreman.example.com
+puppet-ca-proxy: foreman.example.com
+architecture: x86_64
+operatingsystem: "CentOS Linux 7.7.1908"
+medium: "CentOS mirror"
+provision-method: "build"
+build: true
+partition-table: "Linux"
+pxe-loader: "PXELinux BIOS"
+compute-resource: "oVirt"
+
+
+
+
+
+
+
+
+
+
+
+

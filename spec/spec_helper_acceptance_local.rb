@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'singleton'
 
-class Helper
+class LitmusHelper
   include Singleton
   include PuppetLitmus
 end
@@ -17,7 +17,7 @@ end
 def create_remote_file(name, dest_filepath, file_content)
   Tempfile.open name do |tempfile|
     File.open(tempfile.path, 'w') { |file| file.puts file_content }
-    Helper.instance.bolt_upload_file(tempfile.path, dest_filepath)
+    LitmusHelper.instance.bolt_upload_file(tempfile.path, dest_filepath)
   end
 end
 
