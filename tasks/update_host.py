@@ -134,10 +134,9 @@ class MyTask(TaskHelper):
         # execute command
         command = "%s host update %s" % (base_command, self.dict_to_hammer_cli_options(host_data))
         output = command if noop else self.hammer_fall(command)
-        result = {
-            "result": output
+        return {
+            'result': output
         }
-        return result
 
 if __name__ == '__main__':
     MyTask().run()

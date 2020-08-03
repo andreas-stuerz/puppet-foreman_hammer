@@ -95,7 +95,6 @@ class MyTask(TaskHelper):
         if ip:
             host_input_data['root']['ip'] = ip
 
-        print(cpus or mem)
         if cpus or mem:
             host_input_data['compute-attributes'] = {
                 'cores': cpus,
@@ -115,10 +114,9 @@ class MyTask(TaskHelper):
         # execute command
         command = "%s host create %s" % (base_command, self.dict_to_hammer_cli_options(host_data))
         output = command if noop else self.hammer_fall(command)
-        result = {
-            "result": output
+        return {
+            'result': output
         }
-        return result
 
 if __name__ == '__main__':
     MyTask().run()

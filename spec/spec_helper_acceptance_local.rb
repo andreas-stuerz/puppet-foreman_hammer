@@ -21,6 +21,12 @@ def create_remote_file(name, dest_filepath, file_content)
   end
 end
 
+def deploy_fixtures(target_dir = '/fixtures')
+  local_fixtures_dir = File.join(File.dirname(__FILE__), '/fixtures/acceptance')
+  LitmusHelper.instance.run_shell("rm -rf #{target_dir}")
+  LitmusHelper.instance.bolt_upload_file(local_fixtures_dir, target_dir)
+end
+
 RSpec.configure do |c|
   c.before :suite do
     vmhostname = LitmusHelper.instance.run_shell('hostname').stdout.strip
@@ -31,6 +37,21 @@ RSpec.configure do |c|
     vmos = os[:family]
 
     puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos}"
+
+    # copy foreman_hammer templates fixtures to vm
+    deploy_fixtures()
+
+    # install dependencies on centos 7
+    LitmusHelper.instance.apply_manifest("package { ['python3', 'python3-pip']: ensure => installed, }", expect_failures: false)
+    LitmusHelper.instance.run_shell('pip3 install pyyaml')
+    LitmusHelper.instance.run_shell('yum -y localinstall http://yum.theforeman.org/releases/latest/el7/x86_64/foreman-release.rpm')
+    LitmusHelper.instance.apply_manifest("package { ['foreman-release-scl', 'tfm-rubygem-hammer_cli', 'tfm-rubygem-hammer_cli_foreman']: ensure => installed, }", expect_failures: false)
+    #LitmusHelper.instance.run_shell('yum -y localinstall http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
+    #LitmusHelper.instance.apply_manifest("package { ['centos-release-scl','tfm-rubygem-hammer_cli', 'tfm-rubygem-hammer_cli_foreman']: ensure => installed, }", expect_failures: false)
+    #LitmusHelper.instance.apply_manifest("package { ['foreman-release-scl', 'foreman-installer']: ensure => installed, }", expect_failures: false)
+
+
+
   end
 end
 

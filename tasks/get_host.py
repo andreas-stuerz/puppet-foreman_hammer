@@ -48,8 +48,6 @@ class MyTask(TaskHelper):
         # execute command
         command = "%s --output json host info --name '%s'" % (base_command, name)
         output = command if noop else json.loads(self.hammer_fall(command))
-        if noop:
-            print(command)
         return {
             'result': output
         }
