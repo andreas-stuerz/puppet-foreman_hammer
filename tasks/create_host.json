@@ -2,7 +2,7 @@
   "description": "Create a host in foreman from a template",
   "supports_noop": true,
   "input_method": "stdin",
-  "files": ["python_task_helper/files/task_helper.py"],
+  "files": ["python_task_helper/files/task_helper.py", "foreman_hammer/lib/hammer_cli_helper.py"],
   "parameters": {
     "hostname": {
       "description": "The Hostname. e.g. mail01",

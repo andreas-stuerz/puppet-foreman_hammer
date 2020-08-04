@@ -2,34 +2,18 @@
 
 """
 This script get information for a host from foreman
-Requires:
-- hammer-cli-foreman -See: https://github.com/theforeman/hammer-cli-foreman
 """
 import os
 import sys
 import json
-import subprocess
-import shlex
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python_task_helper', 'files'))
 from task_helper import TaskHelper
 
-class HammerCliError(Exception):
-    def __init__(self, code, msg):
-        message = "Exit code: {} - Error: {}".format(code, msg)
-        super().__init__(message)
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'foreman_hammer', 'lib'))
+from hammer_cli_helper import HammerCliHelper
 
 class MyTask(TaskHelper):
-    def hammer_fall(self, command, encoding = 'UTF-8'):
-        args = shlex.split(command)
-        p = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output,error = p.communicate()
-        if error and p.returncode != 70:
-            raise HammerCliError(p.returncode, error.decode(encoding))
-        if p.returncode == 70:
-            return '{}'
-        return output.decode(encoding)
-
     def task(self, args):
         name = args['name']
         server_url = args.get('server_url', '')
@@ -37,6 +21,7 @@ class MyTask(TaskHelper):
         password = args.get('password', '')
         hammer_cli_bin = os.path.expanduser(args['hammer_cli_bin'])
         noop = args.get('_noop', False)
+        hammer_helper = HammerCliHelper()
 
         # build command string
         base_command = "%s %s %s %s" \
@@ -47,7 +32,7 @@ class MyTask(TaskHelper):
                         )
         # execute command
         command = "%s --output json host info --name '%s'" % (base_command, name)
-        output = command if noop else json.loads(self.hammer_fall(command))
+        output = command if noop else json.loads(hammer_helper.hammer_fall(command, [70]))
         return {
             'result': output
         }
