@@ -49,9 +49,6 @@ RSpec.configure do |c|
     #LitmusHelper.instance.run_shell('yum -y localinstall http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
     #LitmusHelper.instance.apply_manifest("package { ['centos-release-scl','tfm-rubygem-hammer_cli', 'tfm-rubygem-hammer_cli_foreman']: ensure => installed, }", expect_failures: false)
     #LitmusHelper.instance.apply_manifest("package { ['foreman-release-scl', 'foreman-installer']: ensure => installed, }", expect_failures: false)
-
-
-
   end
 end
 
