@@ -28,5 +28,5 @@
 .rake_tasks
 .rvmrc
 /modules/
+/spec/fixtures/modules/foreman_hammer
 /keys
-/spec/fixtures/modules/foreman_hammer/
