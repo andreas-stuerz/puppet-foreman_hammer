@@ -1,0 +1,16 @@
+# Inventory file for Bolt
+version: 2
+groups:
+  - name: hammer-local
+    targets:
+      - hammer-local.127.0.0.1.nip.io
+    config:
+      transport: local
+    vars:
+      foreman:
+        server_url: "<FOREMAN_URL>"
+        hammer_cli_bin: "hammer"
+        username: '<FOREMAN_USERNAME>'
+        password:
+          _plugin: pkcs7
+          encrypted_value: <SECRET_FOREMAN_PASSWORD>

@@ -1,0 +1,4 @@
+---
+name: foreman_hammer
+plans:
+  - foreman_hammer::hosts

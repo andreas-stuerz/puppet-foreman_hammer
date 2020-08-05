@@ -1,0 +1,30 @@
+{
+  "description": "Get information about a host from foreman",
+  "supports_noop": true,
+  "input_method": "stdin",
+  "files": ["python_task_helper/files/task_helper.py", "foreman_hammer/lib/hammer_cli_helper.py"],
+  "parameters": {
+    "name": {
+      "description": "The name of the host to get information about e.g. mail01.example.net",
+      "type": "Stdlib::Fqdn"
+    },
+    "hammer_cli_bin": {
+      "description": "The base path under which the hammer is installed.",
+      "type": "Optional[String]",
+      "default": "hammer"
+    },
+    "server_url": {
+      "description": "URL to access foreman e.g. https://foreman.example.com",
+      "type": "Optional[Stdlib::Httpsurl]"
+    },
+    "username": {
+      "description": "Username to access foreman",
+      "type": "Optional[String[1]]"
+    },
+    "password": {
+      "description": "Password for foreman.",
+      "type": "Optional[String[1]]",
+      "sensitive": true
+    }
+  }
+}

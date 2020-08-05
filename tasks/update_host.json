@@ -1,0 +1,56 @@
+{
+  "description": "Update a host in foreman from a template",
+  "supports_noop": true,
+  "input_method": "stdin",
+  "files": ["python_task_helper/files/task_helper.py", "foreman_hammer/lib/hammer_cli_helper.py"],
+  "parameters": {
+    "id": {
+      "description": "The ID for the host from foreman.",
+      "type": "Integer"
+    },
+    "template": {
+      "description": "The template to update the host from",
+      "type": "String"
+    },
+    "build": {
+      "description": "Should foreman rebuild the host?",
+      "type": "Optional[Boolean]",
+      "default": false
+    },
+    "ip": {
+      "description": "The ip for the primary interface",
+      "type": "Optional[Stdlib::IP::Address::V4]"
+    },
+    "cpus": {
+      "description": "The number of CPU cores",
+      "type": "Optional[Integer]"
+    },
+    "mem": {
+      "description": "The amount of memory in GB",
+      "type": "Optional[Integer]"
+    },
+    "template_basedir": {
+      "description": "The template basedir.",
+      "type": "String",
+      "default": "Boltdir/site-modules/foreman/templates"
+    },
+    "hammer_cli_bin": {
+      "description": "The base path under which the hammer is installed.",
+      "type": "Optional[String]",
+      "default": "hammer"
+    },
+    "server_url": {
+      "description": "URL to access foreman e.g. https://foreman.example.com",
+      "type": "Optional[Stdlib::Httpsurl]"
+    },
+    "username": {
+      "description": "Username to access foreman",
+      "type": "Optional[String[1]]"
+    },
+    "password": {
+      "description": "Password for foreman.",
+      "type": "Optional[String[1]]",
+      "sensitive": true
+    }
+  }
+}

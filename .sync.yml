@@ -1,0 +1,28 @@
+---
+.gitignore:
+  paths:
+    - .rake_tasks
+    - .rvmrc
+    - /modules/
+    - /spec/fixtures/modules/foreman_hammer
+    - /keys
+
+.pdkignore:
+  paths:
+    - /scripts/
+    - .rake_tasks
+    - Puppetfile
+".travis.yml":
+  #global_env:
+  deploy_to_forge:
+    enabled: false
+  branches:
+    - release
+  use_litmus: true
+  litmus:
+    provision_list:
+      - travis_deb
+      - travis_ub
+      - travis_el7
+      - travis_el8
+  simplecov: true
