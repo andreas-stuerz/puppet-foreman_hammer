@@ -28,4 +28,4 @@
 .rake_tasks
 .rvmrc
 /modules/
-spec/fixtures/modules/foreman_hammer
+/spec/fixtures/modules/foreman_hammer
