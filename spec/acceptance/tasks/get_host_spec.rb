@@ -14,9 +14,7 @@ describe 'Task foreman_hammer::get_host' do
 
       it 'with the right hammer command' do
         result = run_bolt_task('foreman_hammer::get_host', params)
-        # rubocop:disable LineLength
         expect(result['result']['result']).to eq("/usr/bin/hammer -s https://127.0.0.1 -u admin -p secret --output json host info --name 'test01.mgmt.example.de'")
-        # rubocop:enable LineLength
       end
     end
   end
