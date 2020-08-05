@@ -1,3 +1,4 @@
+
 plan foreman::hosts (
   TargetSpec $targets,
   Hash $hosts,
