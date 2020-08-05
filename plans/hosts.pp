@@ -9,7 +9,7 @@ plan foreman_hammer::hosts (
   String     $lookup_key = "foreman_hammer",
   Hash       $hosts = lookup("${lookup_key}::hosts", Hash, 'deep', {}),
   String     $template_basedir = lookup("${lookup_key}::template_basedir", String, 'deep', "data/host_templates"),
-  Boolean    $noop,
+  Boolean    $noop = false,
 ) {
   # get group configuration variables
   if get_targets($targets).length > 0 {
@@ -19,14 +19,13 @@ plan foreman_hammer::hosts (
   $output = $hosts.map |$hostname, $host_config| {
     # check if host already exists
     $get_host_result = run_task(
-      'foreman::get_host',
+      'foreman_hammer::get_host',
       $targets,
       name           => "${host_config['hostname']}${host_config['dns_suffix']}",
       server_url     => $config['foreman']['server_url'],
       username       => $config['foreman']['username'],
       password       => $config['foreman']['password'],
       hammer_cli_bin => $config['foreman']['hammer_cli_bin'],
-      _noop          => $noop,
     )
 
     if (empty($get_host_result.first.value['result'])) {
@@ -35,12 +34,12 @@ plan foreman_hammer::hosts (
       } else {
         $ip = 'dhcp'
       }
-      out::message(
-        "Create server - HOSTNAME: ${hostname} IP: ${ip} TEMPLATE: ${host_config['template']} " +
-        "CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB"
+      out::message(sprintf('Create server - HOSTNAME: %s IP: %s TEMPLATE: %s CPU: %d cores RAM: %d GB ',
+          $hostname, $ip, $host_config['template'], $host_config['cpus'], $host_config['mem']
+        )
       )
       run_task(
-        'foreman::create_host',
+        'foreman_hammer::create_host',
         $targets,
         hostname         => $host_config['hostname'],
         ip               => $host_config['ip'],
@@ -59,12 +58,12 @@ plan foreman_hammer::hosts (
       $name = $get_host_result.first.value['result']['Name']
       $ip = $get_host_result.first.value['result']['Network']['IPv4 address']
 
-      out::message(
-        "Update server - ID: ${id} NAME: ${name} IP: ${ip} TEMPLATE: ${host_config['template']} " +
-        "CPU: ${host_config['cpus']} cores RAM: ${host_config['mem']} GB"
+      out::message(sprintf('Update server - ID: %s NAME: %s IP: %s TEMPLATE: %s CPU: %d cores RAM: %d GB ',
+          $id, $name, $ip, $host_config['template'], $host_config['cpus'], $host_config['mem']
+        )
       )
       run_task(
-      'foreman::update_host',
+      'foreman_hammer::update_host',
         $targets,
         id               => $id,
         template         => $host_config['template'],

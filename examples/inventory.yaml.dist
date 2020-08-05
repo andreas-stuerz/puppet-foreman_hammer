@@ -8,9 +8,9 @@ groups:
       transport: local
     vars:
       foreman:
-        server_url: "https://foreman.example.com/"
+        server_url: "<FOREMAN_URL>"
         hammer_cli_bin: "hammer"
-        username: 'admin'
+        username: '<FOREMAN_USERNAME>'
         password:
           _plugin: pkcs7
           encrypted_value: <SECRET_FOREMAN_PASSWORD>
