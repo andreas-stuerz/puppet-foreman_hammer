@@ -1,0 +1,21 @@
+---
+foreman_hammer::template_basedir: examples/host_templates
+foreman_hammer::hosts:
+  server01.example.com:
+    hostname: server01
+    dns_suffix: .example.com
+    ip: 10.0.0.1
+    cpus: 2
+    mem: 4
+    template: example.yaml
+    rebuild: false
+  server02.example.com:
+    hostname: server02
+    dns_suffix: .example.com
+    # ip will be assigned via dhcp
+    #ip: 10.0.0.1
+    cpus: 1
+    mem: 2
+    template: example.yaml
+    rebuild: false
+
