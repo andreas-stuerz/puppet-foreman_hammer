@@ -6,15 +6,24 @@
 
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with foreman_hammer](#setup)
-    * [What foreman_hammer affects](#what-foreman_hammer-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with foreman_hammer](#beginning-with-foreman_hammer)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
-
+- [Description](#description)
+- [Setup](#setup)
+  * [Requirements](#requirements)
+  * [Install requirements](#install-requirements)
+  * [Beginning with foreman_hammer](#beginning-with-foreman-hammer)
+    + [foreman host templates](#foreman-host-templates)
+    + [hiera](#hiera)
+    + [inventory.yaml](#inventoryyaml)
+- [Usage](#usage)
+  * [Examples](#examples)
+    + [Bolt plan foreman::hosts](#bolt-plan-foreman--hosts)
+- [Limitations](#limitations)
+- [Know Issues](#know-issues)
+  * [Fetch missing ca certificate for foreman](#fetch-missing-ca-certificate-for-foreman)
+- [Development](#development)
+  * [Running acceptance tests](#running-acceptance-tests)
+  * [Contributing](#contributing)
+  
 ## Description
 
 This module includes Bolt task and plans for managing hosts in foreman with hammer-cli. Sensitive information like the 
@@ -106,6 +115,8 @@ This example should show the basic usage of the included bolt plans.
 For detailed instructions about the bolt task and plans look at [REFERENCE.md](REFERENCE.md).
 
 ### Examples
+
+#### Bolt plan foreman::hosts
 
 This Bolt plan will create nonexistent host and update existing ones in foreman.
 
