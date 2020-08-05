@@ -40,3 +40,6 @@
 /.yardopts
 /spec/
 /.vscode/
+/scripts/
+.rake_tasks
+Puppetfile

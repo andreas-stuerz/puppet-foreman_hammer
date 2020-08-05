@@ -3,9 +3,11 @@
   paths:
     - .rake_tasks
     - .rvmrc
-    - modules
+    - /modules/
+    - /spec/fixtures/modules/foreman_hammer
 
 .pdkignore:
   paths:
     - /scripts/
     - .rake_tasks
+    - Puppetfile
