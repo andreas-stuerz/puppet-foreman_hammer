@@ -6,9 +6,9 @@
 # @param noop Turn on noop mode.
 plan foreman_hammer::hosts (
   TargetSpec $targets,
-  String     $lookup_key = "foreman_hammer",
+  String     $lookup_key = 'foreman_hammer',
   Hash       $hosts = lookup("${lookup_key}::hosts", Hash, 'deep', {}),
-  String     $template_basedir = lookup("${lookup_key}::template_basedir", String, 'deep', "data/host_templates"),
+  String     $template_basedir = lookup("${lookup_key}::template_basedir", String, 'deep', 'data/host_templates'),
   Boolean    $noop = false,
 ) {
   # get group configuration variables
