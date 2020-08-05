@@ -1,9 +1,15 @@
-
-plan foreman::hosts (
+# Create or update an existing host from a list of hosts with hammer_cli in foreman
+# @param targets The list of targets to run the plan
+# @param lookup_key The hiera base lookup key.
+# @param hosts A list of hosts to create or update.
+# @param template_basedir The base directory for the foreman yaml templates
+# @param noop Turn on noop mode.
+plan foreman_hammer::hosts (
   TargetSpec $targets,
-  Hash $hosts,
-  Boolean $noop,
-  String $template_basedir = 'Boltdir/site-modules/foreman/templates',
+  String     $lookup_key = "foreman_hammer",
+  Hash       $hosts = lookup("${lookup_key}::hosts", Hash, 'deep', {}),
+  String     $template_basedir = lookup("${lookup_key}::template_basedir", String, 'deep', "data/host_templates"),
+  Boolean    $noop,
 ) {
   # get group configuration variables
   if get_targets($targets).length > 0 {
