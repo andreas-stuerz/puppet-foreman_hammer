@@ -110,11 +110,10 @@ For an example look at [examples/inventory.yaml.dist](examples/inventory.yaml.di
 
 ## Usage
 
-This example should show the basic usage of the included bolt plans. 
-
 For detailed instructions about the bolt task and plans look at [REFERENCE.md](REFERENCE.md).
 
 ### Examples
+
 
 #### Bolt plan foreman::hosts
 
