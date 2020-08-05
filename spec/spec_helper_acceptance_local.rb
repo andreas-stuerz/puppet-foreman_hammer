@@ -35,20 +35,127 @@ RSpec.configure do |c|
       vmipaddr = LitmusHelper.instance.run_shell("ip route get 8.8.8.8 | awk '{print $7; exit}'").stdout.strip
     end
     vmos = os[:family]
-
-    puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos}"
+    vmrelease = os[:release]
+    puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos} #{vmrelease}"
 
     # copy foreman_hammer templates fixtures to vm
     deploy_fixtures()
 
-    # install dependencies on centos 7
-    LitmusHelper.instance.apply_manifest("package { ['python3', 'python3-pip']: ensure => installed, }", expect_failures: false)
-    LitmusHelper.instance.run_shell('pip3 install pyyaml')
-    LitmusHelper.instance.run_shell('yum -y localinstall http://yum.theforeman.org/releases/latest/el7/x86_64/foreman-release.rpm')
-    LitmusHelper.instance.apply_manifest("package { ['foreman-release-scl', 'tfm-rubygem-hammer_cli', 'tfm-rubygem-hammer_cli_foreman']: ensure => installed, }", expect_failures: false)
-    #LitmusHelper.instance.run_shell('yum -y localinstall http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
-    #LitmusHelper.instance.apply_manifest("package { ['centos-release-scl','tfm-rubygem-hammer_cli', 'tfm-rubygem-hammer_cli_foreman']: ensure => installed, }", expect_failures: false)
-    #LitmusHelper.instance.apply_manifest("package { ['foreman-release-scl', 'foreman-installer']: ensure => installed, }", expect_failures: false)
+    if os[:family] == 'redhat'
+      base_url = "https://yum.theforeman.org/latest/el#{os[:release].to_i}/$basearch"
+      plugin_base_url = "https://yum.theforeman.org/plugins/latest/el#{os[:release].to_i}/$basearch"
+      gpg_key = 'http://yum.theforeman.org/latest/RPM-GPG-KEY-foreman'
+
+      packages= <<-MANIFEST
+          $packages = [
+              'python3',
+              'python3-pip',
+              'foreman-release',
+              'foreman-release-scl',
+              'tfm-rubygem-hammer_cli',
+              'tfm-rubygem-hammer_cli_foreman',
+          ]
+      MANIFEST
+
+      if os[:release].to_i == 8
+        packages = <<-MANIFEST
+          $packages = [
+              'python3',
+              'python3-pip',
+              'foreman-release',
+              'rubygem-hammer_cli',
+              'rubygem-hammer_cli_foreman',
+          ]
+        MANIFEST
+      end
+
+      # install dependencies on rhel based systems
+      pp_setup = <<-MANIFEST
+            #{packages}
+            $pip_packges = [
+              'pyyaml',
+            ]
+             yumrepo { 'foreman':
+              descr    => 'Foreman #{os[:release].to_i} - $basearch',
+              baseurl  => '#{base_url}',
+              gpgkey   => '#{gpg_key}',
+              enabled  => 1,
+              gpgcheck => 1,
+            }
+            yumrepo { 'foreman-plugins':
+              descr    => 'Foreman plugins #{os[:release].to_i} - $basearch',
+              baseurl  => '#{plugin_base_url}',
+              gpgkey   => '#{gpg_key}',
+              enabled  => 1,
+              gpgcheck => 1,
+            }
+            package { $packages: 
+              ensure => present, 
+            }
+            -> package { $pip_packges:
+              ensure   => present,
+              provider => 'pip3',
+            }
+      MANIFEST
+    else
+      # needed for the puppet fact
+      LitmusHelper.instance.apply_manifest("package { ['lsb-release', 'gnupg']: ensure => installed, }", expect_failures: false)
+
+      if os[:release] =~ %r{^14\.04}
+        LitmusHelper.instance.apply_manifest("package { ['python-yaml']: ensure => installed, }", expect_failures: false)
+        foreman_version = '1.15'
+      elsif os[:family] == 'redhat' and os[:release] =~ %r{8}
+        foreman_version = '1.16'
+      elsif os[:release] =~ %r{9|^16\.04}
+        foreman_version = '1.24'
+      elsif os[:release] =~ %r{10|^18\.04}
+        foreman_version = '2.1'
+      end
+
+      LitmusHelper.instance.run_shell('puppet module install puppetlabs-apt')
+      packages = <<-MANIFEST
+          $packages = [
+              'python3',
+              'python3-pip',
+              'ruby-hammer-cli',
+              'ruby-hammer-cli-foreman',
+          ]
+      MANIFEST
+      pp_setup = <<-MANIFEST
+        Apt::Source <| |> -> Package <| |>
+        #{packages}
+        $pip_packges = [
+          'pyyaml',
+        ]
+        apt::source { 'foreman':
+          location => 'http://deb.theforeman.org',
+          release  => "${::lsbdistcodename}",     
+          repos    => '#{foreman_version}',
+          key      => {
+            'id'     => 'AE0AF310E2EA96B6B6F4BD726F8600B9563278F6',
+            'source' => 'http://deb.theforeman.org/pubkey.gpg',
+          },
+        }
+        apt::source { 'foreman-plugins':
+          location => 'http://deb.theforeman.org',
+          release  => 'plugins',     
+          repos    => '#{foreman_version}',
+          key      => {
+            'id'     => 'AE0AF310E2EA96B6B6F4BD726F8600B9563278F6',
+            'source' => 'http://deb.theforeman.org/pubkey.gpg',
+          },
+        }
+        package { $packages: 
+          ensure => present, 
+        }
+        -> package { $pip_packges:
+          ensure   => latest,
+          provider => 'pip3',
+        }
+
+      MANIFEST
+    end
+    LitmusHelper.instance.apply_manifest(pp_setup, expect_failures: false)
   end
 end
 

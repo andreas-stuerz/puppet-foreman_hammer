@@ -44,20 +44,20 @@ class HammerCliHelper():
 
     def get_comma_seperated(self, dict):
         list = []
-        for key, value in dict.items():
-            list.append("{}={}".format(key, self.get_safe_option_value(value, "{}")))
+        for key in sorted(dict.keys()):
+            list.append("{}={}".format(key, self.get_safe_option_value(dict[key], "{}")))
         return ",".join(list)
 
     def dict_to_hammer_cli_options(self, dict):
         option_lines = []
-        for key, value in dict.items():
-            if type(value) is type(dict):
-                option_lines.append("--{} '{}'".format(key, self.get_comma_seperated(value)))
-            elif type(value) is list:
-                for option_detail in value:
+        for key in sorted(dict.keys()):
+            if type(dict[key]) is type(dict):
+                option_lines.append("--{} '{}'".format(key, self.get_comma_seperated(dict[key])))
+            elif type(dict[key]) is list:
+                for option_detail in dict[key]:
                     option_lines.append("--{} '{}'".format(key, self.get_comma_seperated(option_detail)))
             else:
-                option_lines.append("--{} {}".format(key, self.get_safe_option_value(value)))
+                option_lines.append("--{} {}".format(key, self.get_safe_option_value(dict[key])))
         return " ".join(option_lines)
 
     def merge_templates(self, template, override_template):
