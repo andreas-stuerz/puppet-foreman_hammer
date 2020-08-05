@@ -5,6 +5,7 @@
     - .rvmrc
     - /modules/
     - /spec/fixtures/modules/foreman_hammer
+    - /keys
 
 .pdkignore:
   paths:
