@@ -1,0 +1,11 @@
+---
+.gitignore:
+  paths:
+    - .rake_tasks
+    - .rvmrc
+    - modules
+
+.pdkignore:
+  paths:
+    - /scripts/
+    - .rake_tasks
