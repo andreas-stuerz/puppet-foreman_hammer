@@ -43,3 +43,8 @@
 /scripts/
 .rake_tasks
 Puppetfile
+/keys
+/examples/inventory.yaml
+/examples/inventory.yaml.2*
+rbenv
+.ruby-version

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'singleton'
 
 class LitmusHelper
@@ -39,14 +40,14 @@ RSpec.configure do |c|
     puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos} #{vmrelease}"
 
     # copy foreman_hammer templates fixtures to vm
-    deploy_fixtures()
+    deploy_fixtures
 
     if os[:family] == 'redhat'
       base_url = "https://yum.theforeman.org/latest/el#{os[:release].to_i}/$basearch"
       plugin_base_url = "https://yum.theforeman.org/plugins/latest/el#{os[:release].to_i}/$basearch"
       gpg_key = 'http://yum.theforeman.org/latest/RPM-GPG-KEY-foreman'
 
-      packages= <<-MANIFEST
+      packages = <<-MANIFEST
           $packages = [
               'python3',
               'python3-pip',
@@ -89,8 +90,8 @@ RSpec.configure do |c|
               enabled  => 1,
               gpgcheck => 1,
             }
-            package { $packages: 
-              ensure => present, 
+            package { $packages:
+              ensure => present,
             }
             -> package { $pip_packges:
               ensure   => present,
@@ -104,7 +105,7 @@ RSpec.configure do |c|
       if os[:release] =~ %r{^14\.04}
         LitmusHelper.instance.apply_manifest("package { ['python-yaml']: ensure => installed, }", expect_failures: false)
         foreman_version = '1.15'
-      elsif os[:family] == 'redhat' and os[:release] =~ %r{8}
+      elsif os[:family] == 'debian' && os[:release] =~ %r{8}
         foreman_version = '1.16'
       elsif os[:release] =~ %r{9|^16\.04}
         foreman_version = '1.24'
@@ -129,7 +130,7 @@ RSpec.configure do |c|
         ]
         apt::source { 'foreman':
           location => 'http://deb.theforeman.org',
-          release  => "${::lsbdistcodename}",     
+          release  => "${::lsbdistcodename}",
           repos    => '#{foreman_version}',
           key      => {
             'id'     => 'AE0AF310E2EA96B6B6F4BD726F8600B9563278F6',
@@ -138,15 +139,15 @@ RSpec.configure do |c|
         }
         apt::source { 'foreman-plugins':
           location => 'http://deb.theforeman.org',
-          release  => 'plugins',     
+          release  => 'plugins',
           repos    => '#{foreman_version}',
           key      => {
             'id'     => 'AE0AF310E2EA96B6B6F4BD726F8600B9563278F6',
             'source' => 'http://deb.theforeman.org/pubkey.gpg',
           },
         }
-        package { $packages: 
-          ensure => present, 
+        package { $packages:
+          ensure => present,
         }
         -> package { $pip_packges:
           ensure   => latest,
@@ -158,4 +159,3 @@ RSpec.configure do |c|
     LitmusHelper.instance.apply_manifest(pp_setup, expect_failures: false)
   end
 end
-

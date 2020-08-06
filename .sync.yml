@@ -6,16 +6,25 @@
     - /modules/
     - /spec/fixtures/modules/foreman_hammer
     - /keys
+    - /examples/inventory.yaml
+    - /examples/inventory.yaml.2*
 
 .pdkignore:
   paths:
     - /scripts/
     - .rake_tasks
     - Puppetfile
+    - /keys
+    - /examples/inventory.yaml
+    - /examples/inventory.yaml.2*
+    - rbenv
+    - .ruby-version
 ".travis.yml":
   #global_env:
   deploy_to_forge:
-    enabled: false
+    enabled: true
+  user: andeman
+  secure: "OKJ0znS6QEM+AqNNzc5nZ8HEyXBrEmhgWBKbHKNbda17km2+e/tA53o3VYwafJVzS2jFJT21BMN2eUs5R9I2jJK9oyFzEzgv33BylrJtur/7VkYU9l1JTf1YEUg/J8gZSrdgMbtGkEruUOIV3qKg0hFLmmajzu8Kme4gcKNbW2s2bmdtbksm291hxFcY6VSNaQpHQbg7q8a1w3Cw9fmIsBHgQQeMQz1RzVtgHeYSnoK8TsHHCW9gdPKv15uS+3z1E5ZZjq96doAan4yTDUvkm6hBOVyWgDK0cVNQUs8TE1ejk9dW1G17Jp45z5cm0pPaAHTpW4mBpU8JneVlG6cUCt0xhV+T/mmpASK8B0lr9x2BWimjkj4of6dGrOX0K2Qe1++Mc/D/OUanhhe95P6Ug8sS/ezK4mxUvWpQvwoSbj8HCm0ALl0iQNoWRWlf/FYLfiT3kVGSomkeNENEMP94pxlU7fw3IcQx8E6rrIuA2JKlwOmi+QUhjaI3dZ2hogmuH8N+dnUsSf/a5KAtAZi1lToBjIvaweJfbSLBbc4ygiWAOJm9RWmefTvdyH5ZDhanlOd/ULZvNzhzrowBfzydO50ALeVof7OGOCuh8j2/pGfq2OAnFwco8yYcFMLWKooO/H0L9vl2wsZNzN2wS/Pdx9XdOkqjVvR1OV+1FUXF+yY="
   branches:
     - release
   use_litmus: true
@@ -25,4 +34,22 @@
       - travis_ub
       - travis_el7
       - travis_el8
+      - ---travis_el
   simplecov: true
+
+Gemfile:
+  optional:
+    ":development":
+      - gem: puppet-lint-i18n
+      - gem: github_changelog_generator
+        git: https://github.com/skywinder/github-changelog-generator
+        ref: 20ee04ba1234e9e83eb2ffb5056e23d641c7a018
+        condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
+
+Rakefile:
+  changelog_user: andeman
+
+spec/spec_helper.rb:
+  spec_overrides:
+    - require 'spec_helper_local'
+  coverage_report: true

@@ -1,0 +1,13 @@
+---
+hostgroup: my_hostgroup
+compute-resource: libvirt
+compute-attributes:
+  cpus: 2
+interface:
+  - primary: true
+    compute_type: network
+    compute_network: default
+volume:
+  - capacity: 5G
+  - capacity: 10G
+    format_type: qcow2
