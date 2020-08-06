@@ -105,7 +105,7 @@ RSpec.configure do |c|
       if os[:release] =~ %r{^14\.04}
         LitmusHelper.instance.apply_manifest("package { ['python-yaml']: ensure => installed, }", expect_failures: false)
         foreman_version = '1.15'
-      elsif os[:family] == 'redhat' && os[:release] =~ %r{8}
+      elsif os[:family] == 'debian' && os[:release] =~ %r{8}
         foreman_version = '1.16'
       elsif os[:release] =~ %r{9|^16\.04}
         foreman_version = '1.24'
