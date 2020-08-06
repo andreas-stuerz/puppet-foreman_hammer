@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)
+[![Build Status](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)](https://travis-ci.org/andeman/puppet-foreman_hammer)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/andeman/foreman_hammer.svg)](https://forge.puppetlabs.com/andeman/foreman_hammer)
 [![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/andeman/foreman_hammer.svg)](https://forge.puppetlabs.com/andeman/foreman_hammer)
 
