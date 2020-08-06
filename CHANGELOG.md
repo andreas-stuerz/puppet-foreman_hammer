@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release [1.0.0] - 2020-08-05
+## Release [1.0.0] - 2020-08-06
 Initial Release
 
 ### Added
