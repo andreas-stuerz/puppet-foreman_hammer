@@ -6,6 +6,8 @@
     - /modules/
     - /spec/fixtures/modules/foreman_hammer
     - /keys
+    - /examples/inventory.yaml
+    - /examples/inventory.yaml.2*
 
 .pdkignore:
   paths:
