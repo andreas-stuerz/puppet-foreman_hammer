@@ -1,6 +1,6 @@
 {
   "name": "andeman-foreman_hammer",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "author": "Andreas Stürz",
   "summary": "Bolt task and plans to managing foreman with hammer_cli",
   "license": "Apache-2.0",
