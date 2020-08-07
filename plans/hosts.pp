@@ -34,7 +34,7 @@ plan foreman_hammer::hosts (
       } else {
         $ip = 'dhcp'
       }
-      out::message(sprintf('Create server - HOSTNAME: %s IP: %s TEMPLATE: %s CPU: %d cores RAM: %d GB ',
+      out::message(sprintf('Create server - HOSTNAME: %s IP: %s TEMPLATE: %s CPU: %s cores RAM: %s GB ',
           $hostname, $ip, $host_config['template'], $host_config['cpus'], $host_config['mem']
         )
       )
@@ -58,7 +58,7 @@ plan foreman_hammer::hosts (
       $name = $get_host_result.first.value['result']['Name']
       $ip = $get_host_result.first.value['result']['Network']['IPv4 address']
 
-      out::message(sprintf('Update server - ID: %s NAME: %s IP: %s TEMPLATE: %s CPU: %d cores RAM: %d GB ',
+      out::message(sprintf('Update server - ID: %s NAME: %s IP: %s TEMPLATE: %s CPU: %s cores RAM: %s GB ',
           $id, $name, $ip, $host_config['template'], $host_config['cpus'], $host_config['mem']
         )
       )
