@@ -2,13 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.0.1](https://github.com/andeman/puppet-foreman_hammer/tree/v1.0.1) (2020-08-07)
+
+[Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.0.0...v1.0.1)
+
+### Fixed
+
+- allow empty cpu and mem keys for $hosts for foreman\_hammer::hosts [\#5](https://github.com/andeman/puppet-foreman_hammer/pull/5) ([andeman](https://github.com/andeman))
+
 ## [v1.0.0](https://github.com/andeman/puppet-foreman_hammer/tree/v1.0.0) (2020-08-06)
 
 [Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/0197c6c7a1be5f9963c858b7791733cb39347451...v1.0.0)
-
-### Added
-
-- Bolt plan: host and Bolt tasks: create\_host, update\_host, get\_host [\#3](https://github.com/andeman/puppet-foreman_hammer/pull/3) ([andeman](https://github.com/andeman))
 
 
 
