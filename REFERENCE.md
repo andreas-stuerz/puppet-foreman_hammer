@@ -60,6 +60,12 @@ Data type: `String[1]`
 
 The template basedir.
 
+##### `template_vars`
+
+Data type: `Hash`
+
+Variables to build the YAML with Jinja2
+
 ##### `hammer_cli_bin`
 
 Data type: `Optional[String]`
@@ -83,6 +89,12 @@ Username to access foreman
 Data type: `Optional[String[1]]`
 
 Password for foreman.
+
+##### `verbose`
+
+Data type: `Boolean`
+
+Turn on verbose mode. Show passwords in noop mode.
 
 ### `get_host`
 
@@ -121,6 +133,12 @@ Username to access foreman
 Data type: `Optional[String[1]]`
 
 Password for foreman.
+
+##### `verbose`
+
+Data type: `Boolean`
+
+Turn on verbose mode. Show passwords in noop mode.
 
 ### `update_host`
 
@@ -172,6 +190,12 @@ Data type: `String`
 
 The template basedir.
 
+##### `template_vars`
+
+Data type: `Hash`
+
+Variables to build the YAML with Jinja2
+
 ##### `hammer_cli_bin`
 
 Data type: `Optional[String]`
@@ -195,6 +219,12 @@ Username to access foreman
 Data type: `Optional[String[1]]`
 
 Password for foreman.
+
+##### `verbose`
+
+Data type: `Boolean`
+
+Turn on verbose mode. Show passwords in noop mode.
 
 ## Plans
 
@@ -241,6 +271,14 @@ Default value: `lookup("${lookup_key}::template_basedir", String, 'deep', 'data/
 Data type: `Boolean`
 
 Turn on noop mode.
+
+Default value: ``false``
+
+##### `verbose`
+
+Data type: `Boolean`
+
+Turn on verbose mode.
 
 Default value: ``false``
 
