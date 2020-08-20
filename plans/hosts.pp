@@ -4,12 +4,14 @@
 # @param hosts A list of hosts to create or update.
 # @param template_basedir The base directory for the foreman yaml templates
 # @param noop Turn on noop mode.
+# @param verbose Turn on verbose mode.
 plan foreman_hammer::hosts (
   TargetSpec $targets,
   String     $lookup_key = 'foreman_hammer',
   Hash       $hosts = lookup("${lookup_key}::hosts", Hash, 'deep', {}),
   String     $template_basedir = lookup("${lookup_key}::template_basedir", String, 'deep', 'data/host_templates'),
   Boolean    $noop = false,
+  Boolean    $verbose = false,
 ) {
   # get group configuration variables
   if get_targets($targets).length > 0 {
@@ -17,6 +19,7 @@ plan foreman_hammer::hosts (
   }
 
   $output = $hosts.map |$hostname, $host_config| {
+    $template_vars = $host_config.get('template_vars', {})
     # check if host already exists
     $get_host_result = run_task(
       'foreman_hammer::get_host',
@@ -45,6 +48,7 @@ plan foreman_hammer::hosts (
         ip               => $host_config['ip'],
         template_basedir => $template_basedir,
         template         => $host_config['template'],
+        template_vars    => $template_vars,
         cpus             => $host_config['cpus'],
         mem              => $host_config['mem'],
         server_url       => $config['foreman']['server_url'],
@@ -66,8 +70,9 @@ plan foreman_hammer::hosts (
       'foreman_hammer::update_host',
         $targets,
         id               => $id,
-        template         => $host_config['template'],
         template_basedir => $template_basedir,
+        template         => $host_config['template'],
+        template_vars    => $template_vars,
         cpus             => $host_config['cpus'],
         mem              => $host_config['mem'],
         build            => $host_config['rebuild'],

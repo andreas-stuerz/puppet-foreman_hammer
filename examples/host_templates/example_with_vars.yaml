@@ -1,0 +1,16 @@
+---
+hostgroup: my_hostgroup
+compute-resource: libvirt
+compute-attributes:
+  cpus: 2
+interface:
+  - primary: true
+    compute_type: network
+    compute_network: default
+volume:
+  {% for name, config in volumes.items() %}
+  - capacity: {{ config['capacity'] }}
+    {% if config['format_type'] %}
+    format_type: {{ config['format_type'] }}
+    {% endif %}
+  {% endfor %}

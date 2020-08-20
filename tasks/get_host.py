@@ -21,7 +21,13 @@ class MyTask(TaskHelper):
         password = args.get('password', '')
         hammer_cli_bin = os.path.expanduser(args['hammer_cli_bin'])
         noop = args.get('_noop', False)
+        verbose = args['verbose']
+
         hammer_helper = HammerCliHelper()
+
+        # hide pw in noop mode
+        if password and noop and not verbose:
+            password = "XXXXXXXXXXXXX"
 
         # build command string
         base_command = "%s %s %s %s" \

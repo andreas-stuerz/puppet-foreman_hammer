@@ -26,11 +26,13 @@ class MyTask(TaskHelper):
         hammer_cli_bin = os.path.expanduser(args['hammer_cli_bin'])
         template_basedir = args['template_basedir']
         template_path = os.path.abspath(os.path.join(template_basedir, template))
+        template_vars = args['template_vars']
         noop = args.get('_noop', False)
+        verbose = args['verbose']
 
         hammer_helper = HammerCliHelper()
-
-        host_template_data = hammer_helper.dict_from_yaml(template_path)
+        foreman_yaml = hammer_helper.render_jinja2_template(template_path, template_vars)
+        host_template_data = hammer_helper.dict_from_yaml_string(foreman_yaml)
         host_input_data = {
             "root": {
                 "id": id,
@@ -67,6 +69,10 @@ class MyTask(TaskHelper):
                             if item.get(search_key) == search_val:
                                 host_data[key].pop(index)
                                 break
+
+        # hide pw in noop mode
+        if password and noop and not verbose:
+            password = "XXXXXXXXXXXXX"
 
         # build command string
         base_command = "%s %s %s %s" \

@@ -1,0 +1,46 @@
+---
+organization: example.de
+location: DC1
+hostgroup: linux-servers-dc1
+puppet-environment: {{ puppet_env }}
+puppet-proxy: foreman.example.com
+puppet-ca-proxy: foreman.example.com
+architecture: x86_64
+operatingsystem: "CentOS Linux"
+medium: "CentOS mirror"
+provision-method: "build"
+build: true
+partition-table: "Linux"
+pxe-loader: "PXELinux BIOS"
+compute-resource: "oVirt"
+compute-attributes:
+  # hammer compute-resource clusters --name oVirt
+  cluster: 65c8d284-8f8f-11e9-833f-00163e6c9c8e # oVirt-cluster1
+  # hammer compute-resource images --name oVirt
+  template: 94c889e6-03cc-4ce8-bdd8-af994756751f # oVirt: template
+  cores: 2
+  sockets: 1
+  memory: 2147483648
+  start: 1
+volume:
+  {% for name, config in volumes.items() %}
+  - size_gb: {{ config['size_gb'] }}
+    # hammer compute-resource storage-domains --name oVirt
+    storage_domain: {{ config['storage_domain'] }} # vol01
+    preallocate: false
+    interface: virtio
+    bootable: true
+  {% endfor %}
+interface:
+  - identifier: ens3
+    # hammer domain list
+    domain_id: 1 # mgmt.example.de
+    # bin/hammer subnet list
+    subnet_id: 5 # SERVER (10.0.0.0/24)
+    primary: true
+    managed: true
+    provision: true
+    compute_name: nic0
+    # hammer compute-resource networks --name oVirt --cluster-id 65c8d284-8f8f-11e9-833f-00163e6c9c8e
+    compute_network: 00000000-0000-0000-0000-000000000005 # oVirt: ovirtmgmt
+    compute_interface: virtio

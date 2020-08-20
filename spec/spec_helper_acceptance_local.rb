@@ -75,6 +75,7 @@ RSpec.configure do |c|
             #{packages}
             $pip_packges = [
               'pyyaml',
+              'Jinja2'
             ]
              yumrepo { 'foreman':
               descr    => 'Foreman #{os[:release].to_i} - $basearch',
@@ -94,7 +95,7 @@ RSpec.configure do |c|
               ensure => present,
             }
             -> package { $pip_packges:
-              ensure   => present,
+              ensure   => latest,
               provider => 'pip3',
             }
       MANIFEST
@@ -127,6 +128,7 @@ RSpec.configure do |c|
         #{packages}
         $pip_packges = [
           'pyyaml',
+          'Jinja2'
         ]
         apt::source { 'foreman':
           location => 'http://deb.theforeman.org',

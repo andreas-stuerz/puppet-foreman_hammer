@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)
+[![Build Status](https://travis-ci.org/andeman/puppet-foreman_hammer.svg?branch=master)](https://travis-ci.org/andeman/puppet-foreman_hammer)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/andeman/foreman_hammer.svg)](https://forge.puppetlabs.com/andeman/foreman_hammer)
 [![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/andeman/foreman_hammer.svg)](https://forge.puppetlabs.com/andeman/foreman_hammer)
 
@@ -11,9 +11,10 @@
   * [Requirements](#requirements)
   * [Install requirements](#install-requirements)
   * [Beginning with foreman_hammer](#beginning-with-foreman-hammer)
-    + [foreman host templates](#foreman-host-templates)
-    + [hiera](#hiera)
-    + [inventory.yaml](#inventoryyaml)
+    + [Foreman host templates](#foreman-host-templates)
+    + [Dynamic foreman host templates](#dynamic-foreman-host-templates)
+    + [Hiera](#hiera)
+    + [Bolt inventory.yaml](#bolt-inventoryyaml)
 - [Usage](#usage)
   * [Examples](#examples)
     + [Bolt plan foreman::hosts](#bolt-plan-foreman--hosts)
@@ -22,7 +23,9 @@
   * [Fetch missing ca certificate for foreman](#fetch-missing-ca-certificate-for-foreman)
 - [Development](#development)
   * [Running acceptance tests](#running-acceptance-tests)
+  * [Release Process](#release-process)
   * [Contributing](#contributing)
+
   
 ## Description
 
@@ -41,6 +44,7 @@ The Bolt target host requires:
 
 * [python3](https://wiki.python.org/moin/BeginnersGuide/Download)
 * [PyYAML](https://pypi.org/project/PyYAML/)
+* [Jinja2](https://pypi.org/project/Jinja2/)
 * [hammer-cli-foreman](https://github.com/theforeman/hammer-cli-foreman)
 
 ### Install requirements
@@ -50,7 +54,7 @@ For examples on how to install the needed requirements look at the acceptance te
 
 There a different parts to setup the module.
 
-#### foreman host templates
+#### Foreman host templates
 A foreman host template is written in YAML and provides information on how to build the hammer-cli command for the 
 host using this template.
 
@@ -92,18 +96,70 @@ hammer host create
 
 See the following example as a base for building your own foreman host templates: [data/host_templates/centos7.yaml](data/host_templates/centos7.yaml)
 
+#### Dynamic foreman host templates
 
-#### hiera
+You could use the [Jinja2 template engine](https://jinja.palletsprojects.com/en/2.11.x/templates/) with your foreman host templates
+to build resuable and more flexible host templates.
+
+The following template use the Jinja2 template syntax:
+```
+---
+hostgroup: my_hostgroup
+compute-resource: libvirt
+compute-attributes:
+  cpus: 2
+interface:
+  - primary: true
+    compute_type: network
+    compute_network: default
+volume:
+  {% for name, config in volumes.items() %}
+  - capacity: {{ config['capacity'] }}
+    {% if config['format_type'] %}
+    format_type: {{ config['format_type'] }}
+    {% endif %}
+  {% endfor %}
+```
+
+with the following template variables defined in hiera:
+```
+template_vars:
+  volumes:
+    disk1:
+      capacity: 5G
+    disk2:
+      capacity: 10G
+      format_type: qcow2
+    disk3:
+      capacity: 30G
+      format_type: qcow2
+```
+
+will produce the following hammer-cli command for creating the host:
+
+```
+hammer host create
+  --hostgroup=my_hostgroup                   
+  --compute-resource=libvirt                 
+  --compute-attributes="cpus=2"              
+  --interface="primary=true,compute_type=network,compute_network=default" 
+  --volume="capacity=5G"                     
+  --volume="capacity=10G,format_type=qcow2"  
+  --volume 'capacity=30G,format_type=qcow2'  
+  --name="test-host" 
+```
+
+#### Hiera
 The Bolt plans in this module will lookup the configuration **how to manage hosts** using hiera.
 
 It specifies a list of host which will be managed and the unique information needed for each host e.g. ip, cpu, mem, 
-the foreman host template etc..
+the foreman host template, template variables etc..
 
 See all available options in [data/common.yaml](data/common.yaml).
 
 For a example look at [examples/example_common.yaml](examples/example_common.yaml)
 
-#### inventory.yaml
+#### Bolt inventory.yaml
 The Bolt plans in this module will lookup the configuration **how to access foreman** with Bolt inventory file variables.
 
 For an example look at [examples/inventory.yaml.dist](examples/inventory.yaml.dist)
