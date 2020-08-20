@@ -10,6 +10,7 @@ describe 'Task foreman_hammer::get_host' do
         'username'         => 'admin',
         'password'         => 'secret',
         '_noop'            => true,
+        'verbose'          => true,
       }
 
       it 'with the right hammer command' do

@@ -29,6 +29,11 @@
       "type": "String[1]",
       "default": "Boltdir/site-modules/foreman/templates"
     },
+    "template_vars": {
+      "description": "Variables to build the YAML with Jinja2",
+      "type": "Hash",
+      "default": {}
+    },
     "hammer_cli_bin": {
       "description": "The base path under which the hammer is installed.",
       "type": "Optional[String]",
@@ -46,6 +51,11 @@
       "description": "Password for foreman.",
       "type": "Optional[String[1]]",
       "sensitive": true
+    },
+    "verbose": {
+      "description": "Turn on verbose mode. Show passwords in noop mode.",
+      "type": "Boolean",
+      "default": true
     }
   }
 }

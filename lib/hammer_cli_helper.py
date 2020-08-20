@@ -10,6 +10,8 @@ Requires:
 import yaml
 import subprocess
 import shlex
+import os
+from jinja2 import Environment, FileSystemLoader
 
 class HammerCliError(Exception):
     def __init__(self, code, msg):
@@ -27,6 +29,17 @@ class HammerCliHelper():
         if p.returncode in valid_returncodes:
             return '{}'
         return output.decode(encoding)
+
+    def render_jinja2_template(self, path, vars):
+        template_dir = os.path.dirname(path)
+        template = os.path.basename(path)
+        env = Environment(loader = FileSystemLoader(template_dir), trim_blocks=True, lstrip_blocks=True)
+        template = env.get_template(template)
+        return template.render(vars)
+
+    def dict_from_yaml_string(self, yaml_str):
+        data = yaml.safe_load(yaml_str)
+        return data
 
     def dict_from_yaml(self, path):
         with open(path) as yaml_file:

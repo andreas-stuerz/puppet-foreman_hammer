@@ -25,6 +25,11 @@
       "description": "Password for foreman.",
       "type": "Optional[String[1]]",
       "sensitive": true
+    },
+    "verbose": {
+      "description": "Turn on verbose mode. Show passwords in noop mode.",
+      "type": "Boolean",
+      "default": true
     }
   }
 }

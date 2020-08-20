@@ -6,6 +6,7 @@ Create a host in foreman via yaml template
 import os
 import sys
 
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python_task_helper', 'files'))
 from task_helper import TaskHelper
 
@@ -17,19 +18,21 @@ class MyTask(TaskHelper):
         hostname = args['hostname']
         cpus = args.get('cpus', '')
         mem = args.get('mem', '')
-        template = args['template']
+        template_file = args['template']
         ip = args.get('ip', '')
         server_url = args.get('server_url', '')
         username = args.get('username', '')
         password = args.get('password', '')
         hammer_cli_bin = os.path.expanduser(args['hammer_cli_bin'])
         template_basedir = args['template_basedir']
-        template_path = os.path.abspath(os.path.join(template_basedir, template))
+        template_path = os.path.abspath(os.path.join(template_basedir, template_file))
+        template_vars = args['template_vars']
         noop = args.get('_noop', False)
+        verbose = args['verbose']
 
         hammer_helper = HammerCliHelper()
-
-        host_template_data = hammer_helper.dict_from_yaml(template_path)
+        foreman_yaml = hammer_helper.render_jinja2_template(template_path, template_vars)
+        host_template_data = hammer_helper.dict_from_yaml_string(foreman_yaml)
 
         host_input_data = {
             "root": {
@@ -47,6 +50,10 @@ class MyTask(TaskHelper):
             }
 
         host_data = hammer_helper.merge_templates(host_template_data, host_input_data)
+
+        # hide pw in noop mode
+        if password and noop and not verbose:
+            password = "XXXXXXXXXXXXX"
 
         # build command string
         base_command = "%s %s %s %s" \
