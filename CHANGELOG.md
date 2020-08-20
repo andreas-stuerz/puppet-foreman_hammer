@@ -2,13 +2,25 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v1.0.1](https://github.com/andeman/puppet-foreman_hammer/tree/v1.0.1) (2020-08-07)
+## [v1.1.0](https://github.com/andeman/puppet-foreman_hammer/tree/v1.1.0) (2020-08-20)
 
-[Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.0.0...v1.0.1)
+[Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.0.1...v1.1.0)
+
+### Added
+
+- Implement Jinja2 template engine for dynamic Foreman YAML Templates [\#6](https://github.com/andeman/puppet-foreman_hammer/pull/6) ([andeman](https://github.com/andeman))
 
 ### Fixed
 
 - allow empty cpu and mem keys for $hosts for foreman\_hammer::hosts [\#5](https://github.com/andeman/puppet-foreman_hammer/pull/5) ([andeman](https://github.com/andeman))
+
+## [v1.0.1](https://github.com/andeman/puppet-foreman_hammer/tree/v1.0.1) (2020-08-07)
+
+[Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.0.0...v1.0.1)
+
+### Added
+
+- Bolt plan: host and Bolt tasks: create\_host, update\_host, get\_host [\#3](https://github.com/andeman/puppet-foreman_hammer/pull/3) ([andeman](https://github.com/andeman))
 
 ## [v1.0.0](https://github.com/andeman/puppet-foreman_hammer/tree/v1.0.0) (2020-08-06)
 
