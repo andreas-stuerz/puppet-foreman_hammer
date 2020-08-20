@@ -29,27 +29,27 @@ describe 'Task: foreman_hammer::create_host' do
   context 'with host=test01 from template=centos7_with_vars.yaml' do
     describe 'creates the host test01.example.com with template variables' do
       params = {
-          'template_basedir' => '/fixtures/host_templates',
-          'hostname'         => 'test01',
-          'template'         => 'centos7_with_vars.yaml',
-          'template_vars'    => {
-              'puppet_env' => 'development',
-              'volumes' => {
-                  'disk1' => {
-                      'size_gb' => 40,
-                      'storage_domain' => '9b5fa395-18bb-47a1-a499-92121534ff6c'
-                  }
-              }
+        'template_basedir' => '/fixtures/host_templates',
+        'hostname'         => 'test01',
+        'template'         => 'centos7_with_vars.yaml',
+        'template_vars'    => {
+          'puppet_env' => 'development',
+          'volumes' => {
+            'disk1' => {
+              'size_gb' => 40,
+              'storage_domain' => '9b5fa395-18bb-47a1-a499-92121534ff6c',
+            },
           },
-          'ip'               => '10.0.0.1',
-          'cpus'             => 2,
-          'mem'              => 4,
-          'hammer_cli_bin'   => '/usr/bin/hammer',
-          'server_url'       => 'https://127.0.0.1',
-          'username'         => 'admin',
-          'password'         => 'secret',
-          '_noop'            => true,
-          'verbose'          => true,
+        },
+        'ip'               => '10.0.0.1',
+        'cpus'             => 2,
+        'mem'              => 4,
+        'hammer_cli_bin'   => '/usr/bin/hammer',
+        'server_url'       => 'https://127.0.0.1',
+        'username'         => 'admin',
+        'password'         => 'secret',
+        '_noop'            => true,
+        'verbose'          => true,
       }
 
       it 'with the right hammer command' do

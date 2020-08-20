@@ -30,28 +30,28 @@ describe 'Task foreman_hammer::update_host' do
   context 'with id=1 from template=template=centos7_with_vars.yaml' do
     describe 'updates the host test01.example.com with template variables' do
       params = {
-          'template_basedir' => '/fixtures/host_templates',
-          'id'               => 1,
-          'template'         => 'centos7_with_vars.yaml',
-          'template_vars'    => {
-              'puppet_env' => 'development',
-              'volumes' => {
-                  'disk1' => {
-                      'size_gb' => 40,
-                      'storage_domain' => '9b5fa395-18bb-47a1-a499-92121534ff6c'
-                  }
-              }
+        'template_basedir' => '/fixtures/host_templates',
+        'id'               => 1,
+        'template'         => 'centos7_with_vars.yaml',
+        'template_vars'    => {
+          'puppet_env' => 'development',
+          'volumes' => {
+            'disk1' => {
+              'size_gb' => 40,
+              'storage_domain' => '9b5fa395-18bb-47a1-a499-92121534ff6c',
+            },
           },
-          'build'            => true,
-          'ip'               => '10.0.0.1',
-          'cpus'             => 4,
-          'mem'              => 8,
-          'hammer_cli_bin'   => '/usr/bin/hammer',
-          'server_url'       => 'https://127.0.0.1',
-          'username'         => 'admin',
-          'password'         => 'secret',
-          '_noop'            => true,
-          'verbose'          => true,
+        },
+        'build'            => true,
+        'ip'               => '10.0.0.1',
+        'cpus'             => 4,
+        'mem'              => 8,
+        'hammer_cli_bin'   => '/usr/bin/hammer',
+        'server_url'       => 'https://127.0.0.1',
+        'username'         => 'admin',
+        'password'         => 'secret',
+        '_noop'            => true,
+        'verbose'          => true,
       }
 
       it 'with the right hammer command' do
