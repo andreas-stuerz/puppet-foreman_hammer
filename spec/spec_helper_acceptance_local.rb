@@ -74,7 +74,7 @@ RSpec.configure do |c|
       pp_setup = <<-MANIFEST
             #{packages}
             $pip_packges = [
-              'pyyaml',
+              'ruamel.yaml',
               'Jinja2'
             ]
              yumrepo { 'foreman':
@@ -127,7 +127,7 @@ RSpec.configure do |c|
         Apt::Source <| |> -> Package <| |>
         #{packages}
         $pip_packges = [
-          'pyyaml',
+          'ruamel.yaml',
           'Jinja2'
         ]
         apt::source { 'foreman':
