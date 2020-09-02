@@ -7,7 +7,7 @@ Requires:
     - hammer-cli-foreman -See: https://github.com/theforeman/hammer-cli-foreman
     - pip install pyyaml
 """
-import yaml
+from ruamel import yaml
 import subprocess
 import shlex
 import os

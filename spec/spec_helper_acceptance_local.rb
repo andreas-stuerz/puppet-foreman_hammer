@@ -74,7 +74,7 @@ RSpec.configure do |c|
       pp_setup = <<-MANIFEST
             #{packages}
             $pip_packges = [
-              'pyyaml',
+              'ruamel.yaml',
               'Jinja2'
             ]
              yumrepo { 'foreman':
@@ -103,12 +103,7 @@ RSpec.configure do |c|
       # needed for the puppet fact
       LitmusHelper.instance.apply_manifest("package { ['lsb-release', 'gnupg']: ensure => installed, }", expect_failures: false)
 
-      if os[:release] =~ %r{^14\.04}
-        LitmusHelper.instance.apply_manifest("package { ['python-yaml']: ensure => installed, }", expect_failures: false)
-        foreman_version = '1.15'
-      elsif os[:family] == 'debian' && os[:release] =~ %r{8}
-        foreman_version = '1.16'
-      elsif os[:release] =~ %r{9|^16\.04}
+      if os[:release] =~ %r{9|^16\.04}
         foreman_version = '1.24'
       elsif os[:release] =~ %r{10|^18\.04}
         foreman_version = '2.1'
@@ -127,7 +122,7 @@ RSpec.configure do |c|
         Apt::Source <| |> -> Package <| |>
         #{packages}
         $pip_packges = [
-          'pyyaml',
+          'ruamel.yaml',
           'Jinja2'
         ]
         apt::source { 'foreman':
@@ -158,6 +153,7 @@ RSpec.configure do |c|
 
       MANIFEST
     end
+
     LitmusHelper.instance.apply_manifest(pp_setup, expect_failures: false)
   end
 end

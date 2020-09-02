@@ -1,6 +1,6 @@
 {
   "name": "andeman-foreman_hammer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Andreas Stürz",
   "summary": "Bolt task and plans to managing foreman with hammer_cli",
   "license": "Apache-2.0",
@@ -46,7 +46,6 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8",
         "9",
         "10"
       ]
@@ -54,7 +53,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14.04",
         "16.04",
         "18.04"
       ]
