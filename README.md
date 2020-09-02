@@ -43,7 +43,7 @@ More information about hammer-cli: https://github.com/theforeman/hammer-cli
 The Bolt target host requires:
 
 * [python3](https://wiki.python.org/moin/BeginnersGuide/Download)
-* [PyYAML](https://pypi.org/project/PyYAML/)
+* [ruamel.yaml](https://pypi.org/project/ruamel.yaml/)
 * [Jinja2](https://pypi.org/project/Jinja2/)
 * [hammer-cli-foreman](https://github.com/theforeman/hammer-cli-foreman)
 
