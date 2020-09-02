@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.2.0](https://github.com/andeman/puppet-foreman_hammer/tree/v1.2.0) (2020-09-02)
+
+[Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.1.0...v1.2.0)
+
+### Changed
+
+- Use ruamel.yaml instead of pyyaml [\#7](https://github.com/andeman/puppet-foreman_hammer/pull/7) ([andeman](https://github.com/andeman))
+
 ## [v1.1.0](https://github.com/andeman/puppet-foreman_hammer/tree/v1.1.0) (2020-08-20)
 
 [Full Changelog](https://github.com/andeman/puppet-foreman_hammer/compare/v1.0.1...v1.1.0)
